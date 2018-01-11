@@ -1,0 +1,24 @@
+{
+  "name": "minesweeper",
+  "version": "0.4.2",
+  "description": "minesweeper!",
+  "main": "src/index.js",
+  "author": "Indranil Dasgupta",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack",
+    "test": "mocha --require babel-core/register",
+    "start": "webpack-dev-server --open"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "chai": "^4.1.2",
+    "css-loader": "^0.28.8",
+    "mocha": "^4.1.0",
+    "style-loader": "^0.19.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.10.1"
+  }
+}
