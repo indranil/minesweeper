@@ -17,9 +17,12 @@ describe('Game()', function() {
       game.setupGrid();
       expect(game.grid[1][1]).to.be.an('object').and.have.property('type');
     });
+  });
+  describe('plantMines()', function(done) {
     it('plants mines', function() {
       let game = new Game(1, 1, 1);
       game.setupGrid();
+      game.plantMines();
       expect(game.grid[0][0].type).to.equal(-1);
     });
   });

@@ -5,13 +5,13 @@ export default class Game {
   constructor(rows, cols, mines, domElement) {
     this.rows = rows;
     this.cols = cols;
-    this.mines = mines;
+    this.numMines = mines;
     this.domElement = domElement;
     
     this.grid;
     
     this.state = {
-      minesLeft: this.mines
+      minesLeft: this.numMines
     };
   }
   
@@ -21,23 +21,28 @@ export default class Game {
   
   setup() {
     this.setupGrid();
+    this.plantMines();
     this.drawGrid();
   }
   
   setupGrid() {
-    let minesToPlant = this.mines;
-    let type = 1;
     this.grid = grid(this.rows, this.cols);
     for (let i=0; i<this.grid.length; i++) {
       for (let j=0; j<this.grid[i].length; j++) {
-        if (minesToPlant > 0 && Math.random() >= 0.5) {
-          type = -1;
-          minesToPlant--;
-        } else {
-          let type = 1;
-        }
-        this.grid[i][j] = new Box(i, j, type);
+        this.grid[i][j] = new Box(i, j);
       }
+    }
+  }
+  
+  plantMines() {
+    for (let i=0; i<this.numMines; i++) {
+      let x = Math.floor(Math.random() * this.rows);
+      let y = Math.floor(Math.random() * this.cols);
+      while(this.grid[x][y].type === -1) {
+        x = Math.floor(Math.random() * this.rows);
+        y = Math.floor(Math.random() * this.cols);
+      }
+      this.grid[x][y].type = -1;
     }
   }
   
@@ -48,6 +53,9 @@ export default class Game {
       for (let j=0; j<this.grid[i].length; j++) {
         let box = document.createElement('div');
         box.classList.add('box');
+        if (this.grid[i][j].type === -1) {
+          box.classList.add('bomb');
+        }
         box.addEventListener('click', e => {
           console.log(e.which);
           grid[i][j].reveal();

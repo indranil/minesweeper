@@ -29,3 +29,8 @@ body {
   border: 1px solid black;
   float: left;
 }
+
+.box.bomb {
+  border-color: red;
+  background: red;
+}
