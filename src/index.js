@@ -1,6 +1,6 @@
 import '../assets/css/style.css';
+import Game from './game';
 
-import { grid } from './map';
+const game = new Game(1, 1, 10, document.getElementById('app'));
 
-
-console.log(grid(20, 20));
+game.setup();

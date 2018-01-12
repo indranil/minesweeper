@@ -1,3 +1,31 @@
 body {
-  background: white;
+  text-align: center;
+  font-family: "HelveticaNeue";
+  color: blue;
+  background: lightgrey;
+}
+
+#wrapper {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#app {
+  border: 1px solid #0a0a0a;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.box {
+  width: 30px;
+  height: 30px;
+  border: 1px solid black;
+  float: left;
 }

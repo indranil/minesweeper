@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { grid, populateGrid } from '../src/map';
+import { grid } from '../src/grid';
 
 describe('grid()', function() {
   it('returns arrays of arrays', function() {
@@ -21,8 +21,4 @@ describe('grid()', function() {
     expect(g).to.have.length(2);
     expect(g[1]).to.have.length(2);
   });
-});
-
-describe('populateGrid()', function() {
-  
 });
