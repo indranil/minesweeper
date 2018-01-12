@@ -7,11 +7,29 @@ export default class Box {
     this.y = y;
     this.type = type;
     this.revealed = revealed;
+    this.adjacent = 0;
+    this.domElement = document.createElement('div');
+    this.domElement.classList.add('box');
     
     this.reveal = this.reveal.bind(this);
   }
   
+  isBomb() {
+    this.type = -1;
+    this.adjacent = null;
+    this.domElement.classList.add('bomb');
+  }
+  
+  incrementAdjacent() {
+    if (this.type !== -1) {
+      this.adjacent += 1;
+    }
+  }
+  
   reveal() {
+    if (this.revealed) {
+      return;
+    }
     this.revealed = true;
   //  alert('clicked on [' + this.x + '][' + this.y + ']');
   }

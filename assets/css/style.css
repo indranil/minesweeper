@@ -28,9 +28,10 @@ body {
   height: 30px;
   border: 1px solid black;
   float: left;
+  text-align: center;
+  line-height: 30px;
 }
 
 .box.bomb {
-  border-color: red;
   background: red;
 }

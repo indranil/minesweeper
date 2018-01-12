@@ -13,6 +13,14 @@ export default class Game {
     this.state = {
       minesLeft: this.numMines
     };
+    
+    this.validate();
+  }
+  
+  validate() {
+    if (this.rows * this.cols < this.numMines) {
+      this.numMines = (this.rows * this.cols) - 1;
+    }
   }
   
   setState(key, value) {
@@ -22,6 +30,7 @@ export default class Game {
   setup() {
     this.setupGrid();
     this.plantMines();
+  //  this.calculateAdjacent();
     this.drawGrid();
   }
   
@@ -35,14 +44,35 @@ export default class Game {
   }
   
   plantMines() {
-    for (let i=0; i<this.numMines; i++) {
+    for (let k=0; k<this.numMines; k++) {
       let x = Math.floor(Math.random() * this.rows);
       let y = Math.floor(Math.random() * this.cols);
       while(this.grid[x][y].type === -1) {
         x = Math.floor(Math.random() * this.rows);
         y = Math.floor(Math.random() * this.cols);
       }
-      this.grid[x][y].type = -1;
+      this.grid[x][y].isBomb();
+      
+      for (let i=-1; i<=1; i++) {
+        for (let j=-1; j<=1; j++) {
+          let row = x+i;
+          let col = y+j;
+          if (row < 0 || row >= this.rows || col < 0 || col >= this.cols) {
+            continue;
+          }
+          this.grid[x+i][y+j].incrementAdjacent();
+        }
+      }
+    }
+  }
+  
+  calculateAdjacent() {
+    for (let i=0; i<this.rows; i++) {
+      for (let j=0; j<this.cols; j++) {
+        if (this.grid[i][j].type !== -1) {
+          
+        }
+      }
     }
   }
   
@@ -51,20 +81,14 @@ export default class Game {
       let row = document.createElement('div');
       row.classList.add('row');
       for (let j=0; j<this.grid[i].length; j++) {
-        let box = document.createElement('div');
-        box.classList.add('box');
-        if (this.grid[i][j].type === -1) {
-          box.classList.add('bomb');
-        }
-        box.addEventListener('click', e => {
-          console.log(e.which);
-          grid[i][j].reveal();
-        });
-        box.addEventListener('contextmenu', e => {
+        let box = this.grid[i][j];
+        box.domElement.innerText = box.adjacent;
+        box.domElement.addEventListener('click', box.reveal);
+        box.domElement.addEventListener('contextmenu', e => {
           e.preventDefault();
           console.log(e.which);
-        })
-        row.appendChild(box);
+        });
+        row.appendChild(box.domElement);
       }
       this.domElement.appendChild(row);
     }
