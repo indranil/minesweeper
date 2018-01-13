@@ -52,7 +52,7 @@ export default class Box {
   
   drawRevealed() {
     this.domElement.classList.add('revealed');
-    let symbol = this.adjacent;
+    let symbol = (this.adjacent === 0) ? '' : this.adjacent;
     if (this.isBomb()) {
       this.domElement.classList.add('bomb');
       symbol = '💣';
