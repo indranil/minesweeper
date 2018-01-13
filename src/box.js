@@ -8,6 +8,7 @@ export default class Box {
     this.type = type;
     this.revealed = revealed;
     this.adjacent = 0;
+    this.flagged = false;
     this.domElement = document.createElement('div');
     this.domElement.classList.add('box');
     
@@ -26,11 +27,17 @@ export default class Box {
     }
   }
   
-  reveal() {
-    if (this.revealed) {
-      return;
+  flag() {
+    if (!this.revealed) {
+      this.flagged = true;
+      this.domElement.innerText = '🚩';
     }
-    this.revealed = true;
+  }
+  
+  reveal() {
+    if (!this.revealed) {
+      this.revealed = true;
+    }
   //  alert('clicked on [' + this.x + '][' + this.y + ']');
   }
 }

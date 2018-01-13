@@ -24,4 +24,10 @@ describe('Box()', function() {
     box.reveal();
     expect(box.revealed).to.be.true;
   });
+  it('rightly flags', function() {
+    let box = new Box(0, 0, 1, false);
+    expect(box.flagged).to.be.false;
+    box.flag();
+    expect(box.flagged).to.be.true;
+  });
 });

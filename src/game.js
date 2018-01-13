@@ -86,7 +86,7 @@ export default class Game {
         box.domElement.addEventListener('click', box.reveal);
         box.domElement.addEventListener('contextmenu', e => {
           e.preventDefault();
-          console.log(e.which);
+          box.flag();
         });
         row.appendChild(box.domElement);
       }
