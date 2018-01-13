@@ -36,7 +36,7 @@ export default class Box {
   
   flag() {
     if (!this.revealed) {
-      this.flagged = true;
+      this.flagged = !this.flagged;
       this.drawFlagged();
     }
   }
@@ -47,7 +47,7 @@ export default class Box {
   }
   
   drawFlagged() {
-    this.domElement.innerText = '🚩';
+    this.domElement.innerText = this.flagged ? '🚩' : '';
   }
   
   drawRevealed() {

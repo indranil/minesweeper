@@ -1,4 +1,3 @@
-import { grid } from './grid';
 import Box from './box';
 
 export default class Game {
@@ -11,20 +10,21 @@ export default class Game {
     this.grid;
     
     this.state = {
+      tilesLeft: (this.rows * this.cols) - this.numMines,
       minesLeft: this.numMines
     };
     
     this.validate();
   }
   
+  setState(key, value) {
+    this.state[key] = value;
+  }
+  
   validate() {
     if (this.rows * this.cols < this.numMines) {
       this.numMines = (this.rows * this.cols) - 1;
     }
-  }
-  
-  setState(key, value) {
-    this.state[key] = value;
   }
   
   setup() {
@@ -34,9 +34,10 @@ export default class Game {
   }
   
   setupGrid() {
-    this.grid = grid(this.rows, this.cols);
-    for (let i=0; i<this.grid.length; i++) {
-      for (let j=0; j<this.grid[i].length; j++) {
+    this.grid = new Array(this.rows);
+    for (let i=0; i<this.rows; i++) {
+      this.grid[i] = new Array(this.cols);
+      for (let j=0; j<this.cols; j++) {
         this.grid[i][j] = new Box(i, j);
       }
     }
@@ -52,16 +53,11 @@ export default class Game {
       }
       this.grid[x][y].setAsBomb();
       
-      for (let i=-1; i<=1; i++) {
-        for (let j=-1; j<=1; j++) {
-          let row = x+i;
-          let col = y+j;
-          if (row < 0 || row >= this.rows || col < 0 || col >= this.cols) {
-            continue;
-          }
-          this.grid[x+i][y+j].incrementAdjacent();
-        }
-      }
+      // increment the adjacent boxes' adjacent mine count
+      let adjacentBoxes = this.getAdjacentBoxes(x, y);
+      adjacentBoxes.forEach(function(box) {
+        box.incrementAdjacent();
+      });
     }
   }
   
@@ -78,7 +74,7 @@ export default class Game {
             alert('boom');
             this.gameOver();
           } else if (box.isEmptyAround()) {
-            
+            this.flowReveal(i, j);
           }
         });
         box.domElement.addEventListener('contextmenu', e => {
@@ -88,6 +84,39 @@ export default class Game {
         row.appendChild(box.domElement);
       }
       this.domElement.appendChild(row);
+    }
+  }
+  
+  getAdjacentBoxes(x, y) {
+    let boxes = [];
+    for (let i=-1; i<=1; i++) {
+      for (let j=-1; j<=1; j++) {
+        let row = x+i;
+        let col = y+j;
+        if ((i === 0 && j === 0) || row < 0 || row >= this.rows || col < 0 || col >= this.cols) {
+          continue;
+        }
+        boxes.push(this.grid[row][col]);
+      }
+    }
+    return boxes;
+  }
+  
+  flowReveal(x, y) {
+    let toBeRevealed = [];
+    
+    toBeRevealed.push(this.grid[x][y]);
+    
+    while (toBeRevealed.length > 0) {
+      let currentBox = toBeRevealed.pop();
+      let adjBoxes = this.getAdjacentBoxes(currentBox.x, currentBox.y);
+      
+      adjBoxes.forEach(box => {
+        if (box.isEmptyAround() && box.revealed === false) {
+          toBeRevealed.push(box);
+        }
+        box.reveal();
+      });
     }
   }
   
