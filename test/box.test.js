@@ -30,4 +30,14 @@ describe('Box()', function() {
     box.flag();
     expect(box.flagged).to.be.true;
   });
+  it('rightly booms', function() {
+    let box = new Box(0, 0, -1);
+    expect(box.isBomb()).to.be.true;
+    let box2 = new Box(0, 0, 1);
+    expect(box2.isBomb()).to.be.false;
+  });
+  it('rightly tracks empty', function() {
+    let box = new Box(0, 0, 1);
+    expect(box.isEmptyAround()).to.be.true;
+  });
 });

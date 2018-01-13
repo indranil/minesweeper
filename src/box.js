@@ -10,34 +10,53 @@ export default class Box {
     this.adjacent = 0;
     this.flagged = false;
     this.domElement = document.createElement('div');
-    this.domElement.classList.add('box');
     
+    this.flag = this.flag.bind(this);
     this.reveal = this.reveal.bind(this);
   }
   
-  isBomb() {
+  setAsBomb() {
     this.type = -1;
     this.adjacent = null;
-    this.domElement.classList.add('bomb');
   }
   
   incrementAdjacent() {
-    if (this.type !== -1) {
+    if (!this.isBomb()) {
       this.adjacent += 1;
     }
+  }
+  
+  isBomb() {
+    return this.type === -1;
+  }
+  
+  isEmptyAround() {
+    return this.adjacent === 0;
   }
   
   flag() {
     if (!this.revealed) {
       this.flagged = true;
-      this.domElement.innerText = '🚩';
+      this.drawFlagged();
     }
   }
   
   reveal() {
-    if (!this.revealed) {
-      this.revealed = true;
+    this.revealed = true;
+    this.drawRevealed();
+  }
+  
+  drawFlagged() {
+    this.domElement.innerText = '🚩';
+  }
+  
+  drawRevealed() {
+    this.domElement.classList.add('revealed');
+    let symbol = this.adjacent;
+    if (this.isBomb()) {
+      this.domElement.classList.add('bomb');
+      symbol = '💣';
     }
-  //  alert('clicked on [' + this.x + '][' + this.y + ']');
+    this.domElement.innerText = symbol;
   }
 }

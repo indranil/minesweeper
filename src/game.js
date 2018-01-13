@@ -30,7 +30,6 @@ export default class Game {
   setup() {
     this.setupGrid();
     this.plantMines();
-  //  this.calculateAdjacent();
     this.drawGrid();
   }
   
@@ -47,11 +46,11 @@ export default class Game {
     for (let k=0; k<this.numMines; k++) {
       let x = Math.floor(Math.random() * this.rows);
       let y = Math.floor(Math.random() * this.cols);
-      while(this.grid[x][y].type === -1) {
+      while(this.grid[x][y].isBomb()) {
         x = Math.floor(Math.random() * this.rows);
         y = Math.floor(Math.random() * this.cols);
       }
-      this.grid[x][y].isBomb();
+      this.grid[x][y].setAsBomb();
       
       for (let i=-1; i<=1; i++) {
         for (let j=-1; j<=1; j++) {
@@ -66,24 +65,22 @@ export default class Game {
     }
   }
   
-  calculateAdjacent() {
-    for (let i=0; i<this.rows; i++) {
-      for (let j=0; j<this.cols; j++) {
-        if (this.grid[i][j].type !== -1) {
-          
-        }
-      }
-    }
-  }
-  
   drawGrid() {
     for (let i=0; i<this.grid.length; i++) {
       let row = document.createElement('div');
       row.classList.add('row');
       for (let j=0; j<this.grid[i].length; j++) {
         let box = this.grid[i][j];
-        box.domElement.innerText = box.adjacent;
-        box.domElement.addEventListener('click', box.reveal);
+        box.domElement.classList.add('box');
+        box.domElement.addEventListener('click', e => {
+          box.reveal();
+          if (box.isBomb()) {
+            alert('boom');
+            this.gameOver();
+          } else if (box.isEmptyAround()) {
+            
+          }
+        });
         box.domElement.addEventListener('contextmenu', e => {
           e.preventDefault();
           box.flag();
@@ -92,5 +89,9 @@ export default class Game {
       }
       this.domElement.appendChild(row);
     }
+  }
+  
+  gameOver() {
+    console.log('game over!');
   }
 }

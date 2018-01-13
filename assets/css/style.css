@@ -30,6 +30,11 @@ body {
   float: left;
   text-align: center;
   line-height: 30px;
+  background: #efefef;
+}
+
+.box.revealed {
+  background: white;
 }
 
 .box.bomb {
