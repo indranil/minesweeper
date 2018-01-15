@@ -23,3 +23,6 @@ typings/
 *.tgz
 .yarn-integrity
 .env
+
+.cache
+dist

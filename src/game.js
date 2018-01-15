@@ -71,7 +71,7 @@ export default class Game {
         box.domElement.addEventListener('click', e => {
           box.reveal();
           if (box.isBomb()) {
-            alert('boom');
+            box.domElement.classList.add('clickedbomb');
             this.gameOver();
           } else if (box.isEmptyAround()) {
             this.flowReveal(i, j);
@@ -85,21 +85,6 @@ export default class Game {
       }
       this.domElement.appendChild(row);
     }
-  }
-  
-  getAdjacentBoxes(x, y) {
-    let boxes = [];
-    for (let i=-1; i<=1; i++) {
-      for (let j=-1; j<=1; j++) {
-        let row = x+i;
-        let col = y+j;
-        if ((i === 0 && j === 0) || row < 0 || row >= this.rows || col < 0 || col >= this.cols) {
-          continue;
-        }
-        boxes.push(this.grid[row][col]);
-      }
-    }
-    return boxes;
   }
   
   flowReveal(x, y) {
@@ -121,6 +106,32 @@ export default class Game {
   }
   
   gameOver() {
+    this.revealAll();
     console.log('game over!');
+  }
+  
+  revealAll() {
+    for (let i=0; i<this.rows; i++) {
+      for (let j=0; j<this.cols; j++) {
+        if (this.grid[i][j].isBomb()) {
+          this.grid[i][j].reveal();
+        }
+      }
+    }
+  }
+  
+  getAdjacentBoxes(x, y) {
+    let boxes = [];
+    for (let i=-1; i<=1; i++) {
+      for (let j=-1; j<=1; j++) {
+        let row = x+i;
+        let col = y+j;
+        if ((i === 0 && j === 0) || row < 0 || row >= this.rows || col < 0 || col >= this.cols) {
+          continue;
+        }
+        boxes.push(this.grid[row][col]);
+      }
+    }
+    return boxes;
   }
 }

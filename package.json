@@ -6,21 +6,17 @@
   "author": "Indranil Dasgupta",
   "license": "MIT",
   "scripts": {
-    "build": "webpack",
-    "test": "mocha --require babel-core/register --require jsdom-global/register",
-    "start": "webpack-dev-server --open"
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "mocha --require babel-core/register --require jsdom-global/register"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "chai": "^4.1.2",
-    "css-loader": "^0.28.8",
     "jsdom": "^11.5.1",
     "jsdom-global": "^3.0.2",
     "mocha": "^4.1.0",
-    "style-loader": "^0.19.1",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.10.1"
+    "parcel-bundler": "^1.4.1"
   }
 }

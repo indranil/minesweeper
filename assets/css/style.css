@@ -1,7 +1,7 @@
 body {
   text-align: center;
-  font-family: "HelveticaNeue";
-  color: blue;
+  font-family: "HelveticaNeue", Helvetica, Arial, sans-serif;
+  color: darkgreen;
   background: lightgrey;
 }
 
@@ -13,8 +13,12 @@ body {
   align-items: center;
 }
 
+h1 {
+  color: blue;
+}
+
 #app {
-  border: 1px solid #0a0a0a;
+  border: 1px solid #7AAE6F;
 }
 
 .row:after {
@@ -26,17 +30,18 @@ body {
 .box {
   width: 30px;
   height: 30px;
-  border: 1px solid black;
+  border: 1px solid #7AAE6F;
   float: left;
   text-align: center;
   line-height: 30px;
-  background: #efefef;
+  font-weight: bold;
+  background: #A6EF96;
 }
 
 .box.revealed {
-  background: white;
+  background: #eeffee;
 }
 
-.box.bomb {
-  background: red;
+.box.clickedbomb {
+  background: #FC6F75;
 }

@@ -37,17 +37,13 @@ export default class Box {
   flag() {
     if (!this.revealed) {
       this.flagged = !this.flagged;
-      this.drawFlagged();
+      this.domElement.innerText = this.flagged ? '🚩' : '';
     }
   }
   
   reveal() {
     this.revealed = true;
     this.drawRevealed();
-  }
-  
-  drawFlagged() {
-    this.domElement.innerText = this.flagged ? '🚩' : '';
   }
   
   drawRevealed() {
