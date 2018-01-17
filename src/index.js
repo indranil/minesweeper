@@ -1,5 +1,6 @@
 import '../assets/css/style.css';
 import Game from './game';
+import Timer from './timer';
 
 const gameTypes = {
   easy: {
@@ -19,11 +20,15 @@ const gameTypes = {
   }
 }
 
+const timer = new Timer(document.getElementById('timer'));
+
 const game = new Game(
   gameTypes.hard.rows,
   gameTypes.hard.cols,
   gameTypes.hard.mines,
-  document.getElementById('app')
+  timer,
+  document.getElementById('app'),
+  document.getElementById('mines-left')
 );
 
 game.setup();

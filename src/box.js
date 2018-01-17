@@ -41,6 +41,10 @@ export default class Box {
     }
   }
   
+  isFlagged() {
+    return this.flagged;
+  }
+  
   reveal() {
     this.revealed = true;
     this.drawRevealed();

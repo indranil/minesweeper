@@ -1,18 +1,22 @@
 import Box from './box';
 
 export default class Game {
-  constructor(rows, cols, mines, domElement) {
+  constructor(rows, cols, mines, timer, domElement, scoreDom) {
     this.rows = rows;
     this.cols = cols;
     this.numMines = mines;
+    this.timer = timer;
     this.domElement = domElement;
+    this.scoreDom = scoreDom;
     
     this.grid;
     
     this.state = {
       tilesLeft: (this.rows * this.cols) - this.numMines,
-      minesLeft: this.numMines
+      minesLeft: this.numMines,
     };
+    
+    this.scoreDom.innerText = (''+this.state.minesLeft).padStart(3, '0');
     
     this.validate();
   }
@@ -28,6 +32,7 @@ export default class Game {
   }
   
   setup() {
+    this.domElement.innerHTML = '';
     this.setupGrid();
     this.plantMines();
     this.drawGrid();
@@ -69,6 +74,9 @@ export default class Game {
         let box = this.grid[i][j];
         box.domElement.classList.add('box');
         box.domElement.addEventListener('click', e => {
+          if (!this.timer.started) {
+            this.timer.start();
+          }
           box.reveal();
           if (box.isBomb()) {
             box.domElement.classList.add('clickedbomb');
@@ -79,7 +87,15 @@ export default class Game {
         });
         box.domElement.addEventListener('contextmenu', e => {
           e.preventDefault();
+          if (!this.timer.started) {
+            this.timer.start();
+          }
           box.flag();
+          
+          let mLeft = box.isFlagged() ? this.state.minesLeft - 1 : this.state.minesLeft + 1;
+          this.setState('minesLeft', mLeft);
+          
+          this.scoreDom.innerText = (''+this.state.minesLeft).padStart(3, '0');
         });
         row.appendChild(box.domElement);
       }
@@ -106,11 +122,12 @@ export default class Game {
   }
   
   gameOver() {
-    this.revealAll();
+    this.revealAllBombs();
+    this.timer.stop();
     console.log('game over!');
   }
   
-  revealAll() {
+  revealAllBombs() {
     for (let i=0; i<this.rows; i++) {
       for (let j=0; j<this.cols; j++) {
         if (this.grid[i][j].isBomb()) {
