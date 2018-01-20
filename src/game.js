@@ -92,10 +92,12 @@ export default class Game {
           }
           box.flag();
           
-          let mLeft = box.isFlagged() ? this.state.minesLeft - 1 : this.state.minesLeft + 1;
-          this.setState('minesLeft', mLeft);
-          
-          this.scoreDom.innerText = (''+this.state.minesLeft).padStart(3, '0');
+          if (!box.revealed) {
+            let mLeft = box.isFlagged() ? this.state.minesLeft - 1 : this.state.minesLeft + 1;
+            this.setState('minesLeft', mLeft);
+            
+            this.scoreDom.innerText = (''+this.state.minesLeft).padStart(3, '0');
+          }
         });
         row.appendChild(box.domElement);
       }
