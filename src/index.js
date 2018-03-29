@@ -20,15 +20,38 @@ const gameTypes = {
   }
 }
 
-const timer = new Timer(document.getElementById('timer'));
+let timer = new Timer(document.getElementById('timer'));
 
-const game = new Game(
-  gameTypes.hard.rows,
-  gameTypes.hard.cols,
-  gameTypes.hard.mines,
+let game = new Game(
+  gameTypes.easy.rows,
+  gameTypes.easy.cols,
+  gameTypes.easy.mines,
   timer,
   document.getElementById('app'),
   document.getElementById('mines-left')
 );
 
 game.setup();
+
+// Reset game
+const newGame = document.getElementById('new_game');
+reset.addEventListener('click', e => {
+  if (window.confirm('Are you sure you want to reset this game?')) {
+    game.reset();
+  }
+});
+
+// let newGame = function(timerDom, appDom, score, gameType) {
+//   let timer = new Timer(timerDom);
+  
+//   let game = new Game(
+//     gameType.rows,
+//     gameType.cols,
+//     gameType.mines,
+//     timer,
+//     appDom,
+//     score
+//   );
+  
+//   game.setup();
+// }

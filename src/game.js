@@ -16,8 +16,6 @@ export default class Game {
       minesLeft: this.numMines,
     };
     
-    this.scoreDom.innerText = (''+this.state.minesLeft).padStart(3, '0');
-    
     this.validate();
   }
   
@@ -32,6 +30,7 @@ export default class Game {
   }
   
   setup() {
+    this.scoreDom.innerText = (''+this.state.minesLeft).padStart(3, '0');
     this.domElement.innerHTML = '';
     this.setupGrid();
     this.plantMines();
@@ -127,6 +126,11 @@ export default class Game {
     this.revealAllBombs();
     this.timer.stop();
     console.log('game over!');
+  }
+  
+  reset() {
+    this.timer.reset();
+    this.setup();
   }
   
   revealAllBombs() {
