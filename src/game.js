@@ -42,7 +42,7 @@ export default class Game {
     for (let i=0; i<this.rows; i++) {
       this.grid[i] = new Array(this.cols);
       for (let j=0; j<this.cols; j++) {
-        this.grid[i][j] = new Box(i, j);
+        this.grid[i][j] = new Box(i, j, this);
       }
     }
   }
@@ -72,32 +72,6 @@ export default class Game {
       for (let j=0; j<this.grid[i].length; j++) {
         let box = this.grid[i][j];
         box.domElement.classList.add('box');
-        box.domElement.addEventListener('click', e => {
-          if (!this.timer.started) {
-            this.timer.start();
-          }
-          box.reveal();
-          if (box.isBomb()) {
-            box.domElement.classList.add('clickedbomb');
-            this.gameOver();
-          } else if (box.isEmptyAround()) {
-            this.flowReveal(i, j);
-          }
-        });
-        box.domElement.addEventListener('contextmenu', e => {
-          e.preventDefault();
-          if (!this.timer.started) {
-            this.timer.start();
-          }
-          box.flag();
-          
-          if (!box.revealed) {
-            let mLeft = box.isFlagged() ? this.state.minesLeft - 1 : this.state.minesLeft + 1;
-            this.setState('minesLeft', mLeft);
-            
-            this.scoreDom.innerText = (''+this.state.minesLeft).padStart(3, '0');
-          }
-        });
         row.appendChild(box.domElement);
       }
       this.domElement.appendChild(row);
@@ -127,6 +101,12 @@ export default class Game {
     this.timer.stop();
     console.log('game over!');
   }
+
+  startTimer() {
+    if (!this.timer.started) {
+      this.timer.start();
+    }
+  }
   
   reset() {
     this.timer.reset();
@@ -136,9 +116,12 @@ export default class Game {
   revealAllBombs() {
     for (let i=0; i<this.rows; i++) {
       for (let j=0; j<this.cols; j++) {
-        if (this.grid[i][j].isBomb()) {
-          this.grid[i][j].reveal();
+        let currentBox = this.grid[i][j];
+        if (currentBox.isBomb()) {
+          currentBox.reveal();
         }
+        currentBox.domElement.removeEventListener('click', currentBox.clicked);
+        currentBox.domElement.removeEventListener('contextmenu', currentBox.rightClicked);
       }
     }
   }

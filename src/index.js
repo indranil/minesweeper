@@ -35,7 +35,7 @@ game.setup();
 
 // Reset game
 const newGame = document.getElementById('new_game');
-reset.addEventListener('click', e => {
+newGame.addEventListener('click', e => {
   if (window.confirm('Are you sure you want to reset this game?')) {
     game.reset();
   }
