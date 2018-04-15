@@ -7,6 +7,7 @@ describe('Timer()', function() {
       const timer = new Timer(document.createElement('div'));
       timer.start();
       expect(timer.started).to.be.true;
+      clearInterval(timer.timerDraw);
     });
   });
   describe('elapsed()', function() {
@@ -16,11 +17,14 @@ describe('Timer()', function() {
       timer.start();
       setTimeout(() => {
         if (timer.elapsed() >= 2) {
+          clearInterval(timer.timerDraw);
           done();
         } else {
+          clearInterval(timer.timerDraw);
           done(new Error);
         }
       }, 2100);
+      clearInterval(timer.timerDraw);
     });
   });
   describe('stop()', function() {
@@ -30,6 +34,7 @@ describe('Timer()', function() {
       expect(timer.running).to.be.true;
       timer.stop();
       expect(timer.running).to.be.false;
+      clearInterval(timer.timerDraw);
     });
   });
 });
