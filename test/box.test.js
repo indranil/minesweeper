@@ -24,11 +24,21 @@ describe('Box()', function() {
     box.reveal();
     expect(box.revealed).to.be.true;
   });
+  it('draws revealed', function() {
+    let box = new Box(0, 0, null, 1, false);
+    box.drawRevealed();
+    expect(box.domElement.classList.contains('revealed')).to.be.true;
+  });
+  it('draws a bomb', function() {
+    let box = new Box(0, 0, null, -1, false);
+    box.drawRevealed();
+    expect(box.domElement.innerText).to.equal('💣');
+  });
   it('rightly flags', function() {
     let box = new Box(0, 0, null, 1, false);
-    expect(box.flagged).to.be.false;
+    expect(box.isFlagged()).to.be.false;
     box.flag();
-    expect(box.flagged).to.be.true;
+    expect(box.isFlagged()).to.be.true;
   });
   it('rightly booms', function() {
     let box = new Box(0, 0, null, -1);
