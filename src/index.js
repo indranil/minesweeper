@@ -2,6 +2,8 @@ import '../assets/css/style.css';
 import Game from './game';
 import Timer from './timer';
 
+console.log('game loaded!');
+
 const gameTypes = {
   easy: {
     rows: 9,

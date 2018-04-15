@@ -2,3 +2,10 @@ language: node_js
 node_js:
   - stable
 after_success: yarn coverage
+before_deploy:
+  - yarn build
+deploy:
+  provider: surge
+  project: ./dist/
+  domain: reflective-prison.surge.sh
+  skip_cleanup: true
