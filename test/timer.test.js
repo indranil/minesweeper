@@ -37,4 +37,22 @@ describe('Timer()', function() {
       clearInterval(timer.timerDraw);
     });
   });
+  describe('reset()', function() {
+    it('should reset everything', function() {
+      const timer = new Timer(document.createElement('div'));
+      timer.start();
+      expect(timer.previousTime).to.be.greaterThan(0);
+      timer.reset();
+      expect(timer.running).to.be.false;
+      expect(timer.previousTime).to.equal(0);
+      clearInterval(timer.timerDraw);
+    });
+  });
+  describe('draw()', function() {
+    it('should display 000 before start', function() {
+      const timer = new Timer(document.createElement('div'));
+      expect(timer.domElement.innerText).to.equal('000');
+      clearInterval(timer.timerDraw);
+    });
+  });
 });
